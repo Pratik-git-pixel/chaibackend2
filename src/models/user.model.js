@@ -76,10 +76,7 @@ userSchema.methods.generateAccessToken = async function(){
     {
         expiresIn: process.env.ACCESS_TOEKN_EXPIRY
     }
-)
-
-
-}
+)}
 
 userSchema.methods.generateRefreshToken = function(){
      return await jwt.sign({
