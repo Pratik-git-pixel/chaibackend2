@@ -18,7 +18,7 @@ const registerUser = asyncHandler(async(req,res) => {
 
         const {fullname, email, username, password }=req.body
 
-        // Checking if finds are blanks 
+        // Checking if finds are blanks // Some is like map 
         if(
             [fullname, email, username, password].some((field)=>field?.trim() =="")
         ){
@@ -27,7 +27,7 @@ const registerUser = asyncHandler(async(req,res) => {
         }
 
         // Checking if the user already exists
-        const existedUser = User.findOne({$or: [{username}, {email}]})
+        const existedUser =await User.findOne({$or: [{username}, {email}]})
 
         if(existedUser){
             throw new ApiError(409,"User with email or username already exist")
@@ -36,12 +36,20 @@ const registerUser = asyncHandler(async(req,res) => {
 
         // Checking upload it locally
         const avatarLocalPath = req.files?.avatar[0]?.path
-        const coverImageLocalPath = req.files?.coverImage[0]?.path
+        //const coverImageLocalPath = req.files?.coverImage[0]?.path
+
+        let coverImageLocalPath;
+        if(req.files && Array.isArray(req.files.coverImage) && req.files.length > 0){
+            coverImageLocalPath = req.files.coverImage[0].path
+
+        }
+
 
         if(!avatarLocalPath){
             throw new ApiError(400,"Avatar File is required")
         }
-
+        
+        // Upload to cloudinary
         const avatar = await uploadOnCloudinary(avatarLocalPath)
         const coverImage = await uploadOnCloudinary(coverImageLocalPath)
 
