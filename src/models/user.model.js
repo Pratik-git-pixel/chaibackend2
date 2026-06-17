@@ -52,7 +52,7 @@ const userSchema = new mongoose.Schema({
 
 
 userSchema.pre("save", async function(next){
-    if(!this.isModified("password")) return next();
+    if(!this.isModified("password")) return next;
 
     this.password = await bcrypt.hash(this.password,10)
     next;
@@ -74,7 +74,7 @@ userSchema.methods.generateAccessToken = async function(){
     },
     process.env.ACCESS_TOKEN_SECRET,
     {
-        expiresIn: process.env.ACCESS_TOEKN_EXPIRY
+        expiresIn: process.env.ACCESS_TOKEN_EXPIRY
     }
 )}
 
