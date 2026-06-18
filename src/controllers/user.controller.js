@@ -137,6 +137,7 @@ const loginUser = asyncHandler(async (req,res)=>{
         httpOnly : true,
         secure : true
     }
+    console.log("Token",accessToken)
 
     return res
     .status(200)
