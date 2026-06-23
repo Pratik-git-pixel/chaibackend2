@@ -247,7 +247,7 @@ export const getCurrentUser = asyncHandler(async(req,res)=>{
     .json(new ApiResponse(200,req.user,"Currect User fetched successfully"))
 })
 
-const updateAccountDetails = asyncHandler(async(req,res)=>{
+export const updateAccountDetails = asyncHandler(async(req,res)=>{
     const {fullname, email} = req.body
 
     if(!fullname || !email){
